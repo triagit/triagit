@@ -1,24 +1,18 @@
-# README
+# triaggit
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Sample Rules
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+version: "1.0.0"
+rules:
+- issue_close_outdated:
+    age: 30d
+- pr_close_outdated:
+    age: 30d
+- pr_signed_commits:
+    active: true
+- pr_lgtm:
+    users: rdsubhas
+- pr_cla:
+		active: true
+```
