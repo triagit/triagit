@@ -1,5 +1,5 @@
 module JSONSerializer
-	DEFAULT_DUMP = 'null'
+	DEFAULT_DUMP = '{}'
 
 	def self.dump(obj)
 		obj.to_json

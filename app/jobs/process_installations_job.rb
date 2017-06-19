@@ -4,9 +4,9 @@ class ProcessInstallationsJob < ApplicationJob
   def perform(*args)
   	logger.info 'Processing installations'
     installations = GhClient.new_app_client.find_installations
-    installations.each do |i|
-    	queue = GhQueue.create!(job: 'install', ref: i.id, payload: i.to_hash)
-    	ProcessInstallJob.perform_later queue
+    installations.each do |install|
+    	qinstall = GhQueue.create! job: 'install', ref: install.id, payload: install.to_hash
+    	ProcessInstallJob.perform_later qinstall
     end
   end
 end

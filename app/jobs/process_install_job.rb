@@ -4,10 +4,11 @@ class ProcessInstallJob < ApplicationJob
   def perform(*args)
   	return unless args.present?
   	queue = args[0]
-  	client = GhClient.new_install_client(queue.payload[:id])
+  	client = GhClient.new_install_client queue.payload[:id]
   	repos = client.list_installation_repos
-  	repos.each do |repo|
-  		logger.info 'Processing repo', repo: repo
+  	repos[:repositories].each do |repo|
+      qrepo = GhQueue.create! job: 'repo', ref: repo.full_name, payload: repo.to_hash
+  		ProcessRepoJob.perform_later qrepo
   	end
   end
 end
