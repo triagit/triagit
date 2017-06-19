@@ -7,6 +7,7 @@ RUN apt-get -qq update && \
     chmod +x /usr/bin/dumb-init
 
 ENV RAILS_ENV development
+ENV DISABLE_SPRING true
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["bundle", "exec", "rails", "server"]

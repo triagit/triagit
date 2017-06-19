@@ -47,7 +47,13 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# Custom gems
+###
+### Custom gems
+###
+
 gem 'config', '~> 1.4.0'
+gem 'jwt', '~> 1.5.0'
 gem 'octokit', '~> 4.0'
-gem 'jwt', '~> 1.5.6'
+gem 'rails_semantic_logger', '~> 4.1'
+gem 'faraday-http-cache'
+gem 'awesome_print', '~> 1.8'
