@@ -5,4 +5,4 @@ tasks:
   run:
     cmd: docker run -it --rm -p 3000:3000 triaggit:latest
   shell:
-    cmd: docker run -it --rm -p 3000:3000 -v $MYKE_CWD:/src triaggit:latest bash
+    cmd: docker run -it --rm -p 3000:3000 -v $MYKE_CWD:/src triaggit:latest {{.cmd|default "bash"}}

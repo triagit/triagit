@@ -49,3 +49,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Custom gems
 gem 'config', '~> 1.4.0'
+gem 'octokit', '~> 4.0'
+gem 'jwt', '~> 1.5.6'
