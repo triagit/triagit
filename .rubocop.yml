@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - Gemfile
+    - bin/**/*
     - db/**/*
     - lib/tasks/**/*
     - config/**/*
