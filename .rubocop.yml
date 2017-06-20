@@ -2,8 +2,8 @@ AllCops:
   Exclude:
     - Gemfile
     - bin/**/*
+    - lib/tasks/**/*.rake
     - db/**/*
-    - lib/tasks/**/*
     - config/**/*
     - script/**/*
 
