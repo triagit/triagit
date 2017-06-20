@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
-	layout 'site'
+  layout 'site'
 
-	def index
-	end
+  def index; end
 end
