@@ -7,12 +7,12 @@ class GithubClient
 	end
 
 	def self.new_app_client
-		private_pem = File.read(Settings.github_cert)
+		private_pem = File.read(ENV['GITHUB_APP_CERT'])
 		private_key = OpenSSL::PKey::RSA.new(private_pem)
 		payload = {
 			iat: Time.now.to_i,
 			exp: Time.now.to_i + 600,
-			iss: Settings.github_id
+			iss: ENV['GITHUB_APP_ID']
 		}
     bearer_token = JWT.encode(payload, private_key, 'RS256')
 		Octokit::Client.new(bearer_token: bearer_token)
