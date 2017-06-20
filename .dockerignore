@@ -1,3 +1,10 @@
 tmp/
 log/
 .git/
+db/*.sqlite3
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml
+node_modules
+jspm_packages
+bower_components

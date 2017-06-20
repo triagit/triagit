@@ -3,7 +3,7 @@ class ProcessRepoJob < ApplicationJob
 
   def perform(*args)
   	return unless args.present?
-  	repo = args[0]
-  	logger.info 'Processing repo', repo: repo
+  	event = args[0]
+  	logger.info 'Processing repo', event: event
   end
 end

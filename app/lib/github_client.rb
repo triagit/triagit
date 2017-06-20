@@ -1,4 +1,4 @@
-class GhClient
+class GithubClient
 	def self.new_install_client(id)
 		# TODO: Use optimal caching for access tokens
 		# make them hidden, transparent and shared

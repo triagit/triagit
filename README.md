@@ -21,3 +21,14 @@
 
 * Org-wide rules
 * Dashboard (subsequently users, roles, permissions)
+
+## Models
+
+```
+User: email, handle
+Account: email, billing, installation, type (github/gitlab/etc)
+	AccountUser: account <> user
+	Token
+	Repo: rules, settings, ...
+		Event
+```
