@@ -4,7 +4,8 @@ RUN apt-get -qq update && \
     apt-get install sqlite3 && \
     rm -rf /var/cache/apt /var/lib/apt/lists && \
     wget -qO /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.1.3/dumb-init_1.1.3_amd64 && \
-    chmod +x /usr/bin/dumb-init
+    chmod +x /usr/bin/dumb-init && \
+    echo 'gem: --no-ri --no-rdoc' >> /etc/gemrc
 
 WORKDIR /src
 COPY Gemfile* /src/

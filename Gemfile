@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.4.1'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
@@ -50,6 +51,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 ### Custom gems
 ###
 
+gem 'pg'
 gem 'annotate', '~> 2.7.2'
 gem 'awesome_print', '~> 1.8'
 gem 'dotenv-rails', '~> 2.2'
@@ -58,5 +60,4 @@ gem 'jwt', '~> 1.5.0'
 gem 'octokit', '~> 4.0'
 gem 'rails_semantic_logger', '~> 4.1'
 gem 'slim-rails', '~> 3.1'
-
 gem 'rubocop', '~> 0.49.1', require: false, group: :development

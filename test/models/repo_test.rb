@@ -15,6 +15,10 @@
 #
 #  index_repos_on_account_id  (account_id)
 #
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#
 
 require 'test_helper'
 

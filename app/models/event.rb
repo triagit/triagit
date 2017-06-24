@@ -14,6 +14,10 @@
 #
 #  index_events_on_repo_id  (repo_id)
 #
+# Foreign Keys
+#
+#  fk_rails_...  (repo_id => repos.id)
+#
 
 class Event < ApplicationRecord
   belongs_to :repo
