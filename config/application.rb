@@ -25,5 +25,13 @@ module Triaggit
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.action_controller.include_all_helpers = false
+    config.middleware.delete ::Rack::Sendfile
+    config.middleware.delete ::Rack::ETag
+    config.middleware.delete ::Rack::MethodOverride
+    config.middleware.delete ::Rack::Runtime
+    config.middleware.delete ::Rack::Head
+    config.middleware.delete ::Rack::ConditionalGet
+    config.middleware.delete ::ActionDispatch::RequestId
+    config.middleware.delete ::ActionDispatch::Flash
   end
 end
