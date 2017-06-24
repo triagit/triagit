@@ -4,17 +4,7 @@ html class="min-h-100 relative"
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
     meta http-equiv="X-UA-Compatible" content="IE=edge"
-
     title triaggit
-    meta name="description" content=""
-    meta name="robots" content="index, follow"
-    meta property="og:locale" content="en_US"
-    meta property="og:type" content="website"
-    meta property="og:description" content=""
-    meta property="og:url" content="https://mailcheck.in/"
-    meta property="og:site_name" content="Mailcheck"
-    meta property="og:title" content=""
-
     == stylesheet_link_tag 'site', media: 'all'
     == javascript_include_tag 'site'
 
@@ -24,11 +14,10 @@ html class="min-h-100 relative"
       nav class="w-100 w-80-l h3 center f6 fw6 flex justify-between"
         div class="flex"
           a class="flex white link dim items-center mr3 f4 pv2" href=site_root_url triaggit
-          a class="flex white link dim items-center ph3" href="/#pricing" Features
-          a class="flex white link dim items-center ph3" href="/#pricing" Pricing
         div class="flex flex-grow"
-          a class="flex link white dim items-center ph3" href="/auth/github" Login
-          a class="flex link white dim items-center ph3 pv2 bg-hot-pink" href="/auth/github" Sign up!
+          a class="flex link white dim items-center" href="#"
+            span class="ph2" =current_user.name
+            = image_tag current_user.payload[:extra][:raw_info][:avatar_url], class: 'h2'
 
     main class="min-vh-100 w-100 w-80-l mt4 center"
       == yield

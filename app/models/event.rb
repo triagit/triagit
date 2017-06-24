@@ -21,4 +21,5 @@
 
 class Event < ApplicationRecord
   belongs_to :repo
+  serialize :payload, JSONSerializer
 end

@@ -1,26 +1,21 @@
 # == Schema Information
 #
-# Table name: repos
+# Table name: users
 #
 #  id         :integer          not null, primary key
-#  account_id :integer
 #  name       :string
+#  service    :string(2)
 #  ref        :string
-#  payload    :text
-#  rules      :text
+#  payload    :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 # Indexes
 #
-#  index_repos_on_account_id  (account_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id)
+#  index_users_on_ref      (ref) UNIQUE
+#  index_users_on_service  (service)
 #
 
-class Repo < ApplicationRecord
-  belongs_to :account
+class User < ApplicationRecord
   serialize :payload, JSONSerializer
 end

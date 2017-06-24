@@ -15,4 +15,5 @@
 #
 
 class Account < ApplicationRecord
+  serialize :payload, JSONSerializer
 end
