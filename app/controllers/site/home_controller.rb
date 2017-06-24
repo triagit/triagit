@@ -1,5 +1,7 @@
 module Site
   class HomeController < SiteController
-    def index; end
+    def index
+      render :index
+    end
   end
 end

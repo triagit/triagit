@@ -1,0 +1,41 @@
+doctype html
+html class="min-h-100 relative"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+
+    title triaggit
+    meta name="description" content=""
+    meta name="robots" content="index, follow"
+    meta property="og:locale" content="en_US"
+    meta property="og:type" content="website"
+    meta property="og:description" content=""
+    meta property="og:url" content="https://mailcheck.in/"
+    meta property="og:site_name" content="Mailcheck"
+    meta property="og:title" content=""
+
+    == stylesheet_link_tag 'site', media: 'all'
+    == javascript_include_tag 'site'
+
+  body class="mb5"
+    header class="relative"
+      div class="absolute absolute--fill bg-dark-blue o-70 z--1"
+      nav class="w-100 w-80-l center f6 fw6 flex justify-between"
+        div class="flex"
+          a class="flex white link dim items-center mr3 f4 pv2" href=site_root_url triaggit
+          a class="flex white link dim items-center ph3" href="/#pricing" Features
+          a class="flex white link dim items-center ph3" href="/#pricing" Pricing
+        div class="flex flex-grow"
+          a class="flex link white dim items-center ph3" href="/docs" Login
+          a class="flex link white dim items-center ph3 pv2 bg-hot-pink" href="/docs" Sign up!
+
+    main class="min-vh-100 w-100 w-80-l mt4 center"
+      == yield
+
+    footer class="bg-black-50 white-70"
+      div class="dt w-100 mw8 center pv2 v-mid f6"
+        div class="dtc w6-ns v-mid"
+          span &copy;2017 triaggit | All rights reserved
+        div class="dtc w6-ns v-mid tr"
+          a class="white-70 link dim dib pv2 ph3" href="/" Terms of use
