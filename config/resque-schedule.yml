@@ -1,0 +1,2 @@
+"Github::SyncInstallsJob":
+  cron: "*/5 * * * *"
