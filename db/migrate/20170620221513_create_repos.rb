@@ -1,7 +1,7 @@
 class CreateRepos < ActiveRecord::Migration[5.1]
   def change
-    create_table :repos do |t|
-      t.references :account, foreign_key: true
+    create_table :repos, id: :uuid do |t|
+      t.references :account, foreign_key: true, type: :uuid
       t.string :name, null: false
       t.string :service, limit: 2, null: false
       t.string :ref, null: false

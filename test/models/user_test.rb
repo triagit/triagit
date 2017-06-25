@@ -2,18 +2,18 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  name       :string
-#  service    :string(2)
-#  ref        :string
-#  payload    :string
+#  id         :uuid             not null, primary key
+#  name       :string           not null
+#  service    :string(2)        not null
+#  ref        :string           not null
+#  payload    :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 # Indexes
 #
-#  index_users_on_ref      (ref) UNIQUE
-#  index_users_on_service  (service)
+#  index_users_on_service          (service)
+#  index_users_on_service_and_ref  (service,ref) UNIQUE
 #
 
 require 'test_helper'

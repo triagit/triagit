@@ -2,11 +2,11 @@
 #
 # Table name: events
 #
-#  id         :integer          not null, primary key
-#  repo_id    :integer
-#  name       :string
-#  ref        :string
-#  payload    :text
+#  id         :uuid             not null, primary key
+#  repo_id    :uuid
+#  name       :string           not null
+#  ref        :string           not null
+#  payload    :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

@@ -1,9 +1,9 @@
 module Github
-  class Client
-    def self.new_install_client(id)
+  class GithubClient
+    def self.new_account_client(account)
       # TODO: Use optimal caching for access tokens
       # make them hidden, transparent and shared
-      token = new_app_client.create_installation_access_token(id)
+      token = new_app_client.create_installation_access_token(account.ref)
       Octokit::Client.new(access_token: token[:token])
     end
 

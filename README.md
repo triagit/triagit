@@ -16,13 +16,14 @@
 * must have a label (e.g. Ready for release, etc)
 * must have label for certain diff paths (e.g. Migration approved)
 * move project boards based on labels
+* auto approve PRs from certain teams/users
 
 ## Other Requirements
 
 * Org-wide rules
 * Dashboard (subsequently users, roles, permissions)
 
-## Models
+## Model Overview
 
 ```
 User: email, handle
@@ -32,3 +33,7 @@ Account: email, billing, installation, type (github/gitlab/etc)
 	Repo: rules, settings, ...
 		Event
 ```
+
+## TODO
+
+* What if same git repo in multiple integrations/accounts?

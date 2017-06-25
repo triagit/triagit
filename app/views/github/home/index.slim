@@ -1,1 +1,8 @@
-== current_user.name
+ul
+  - current_user.accounts.each do |account|
+    li
+      span = account.name
+      ul
+        - account.repos.each do |repo|
+          li
+            span = repo.name

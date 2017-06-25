@@ -2,18 +2,21 @@
 #
 # Table name: repos
 #
-#  id         :integer          not null, primary key
-#  account_id :integer
-#  name       :string
-#  ref        :string
-#  payload    :text
+#  id         :uuid             not null, primary key
+#  account_id :uuid
+#  name       :string           not null
+#  service    :string(2)        not null
+#  ref        :string           not null
+#  payload    :text             not null
 #  rules      :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 # Indexes
 #
-#  index_repos_on_account_id  (account_id)
+#  index_repos_on_account_id       (account_id)
+#  index_repos_on_service          (service)
+#  index_repos_on_service_and_ref  (service,ref) UNIQUE
 #
 # Foreign Keys
 #
