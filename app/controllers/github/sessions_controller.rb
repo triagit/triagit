@@ -5,7 +5,7 @@ module Github
       user = User.find_or_initialize_by(service: Constants::GITHUB, ref: auth_hash['uid'])
       user.name = auth_hash['info']['nickname']
       user.payload = auth_hash.to_hash
-      user.active = Constants::STATUS_ACTIVE
+      user.status ||= Constants::STATUS_ACTIVE
       user.save!
 
       Github::SyncUserInstallsJob.perform_later user
