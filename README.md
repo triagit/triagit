@@ -37,4 +37,5 @@ Account: email, billing, installation, type (github/gitlab/etc)
 ## TODO
 
 * What if same git repo in multiple integrations/accounts?
-  * +if using soft deletes (i.e. account active=false)
+  * +if using soft deletes (i.e. account status=inactive/blocked)
+* User installs sync - Cleaning up removed/phantom installs

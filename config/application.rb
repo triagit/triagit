@@ -27,6 +27,7 @@ module Triaggit
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
+    config.time_zone = "UTC"
     config.action_controller.include_all_helpers = false
     config.middleware.delete ::Rack::Sendfile
     config.middleware.delete ::Rack::ETag

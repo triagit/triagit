@@ -10,6 +10,10 @@ Rails.application.routes.draw do
     root to: 'home#index'
   end
 
+  scope '/admin' do
+    mount Resque::Server.new, at: '/jobs'
+  end
+
   get '/auth/github/callback', to: 'github/sessions#new'
   root to: 'site/home#index'
 end

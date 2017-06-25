@@ -7,6 +7,8 @@ services:
     volumes:
      - .:/src
   postgres:
-    image: postgres
+    image: postgres:alpine
     environment:
       POSTGRES_PASSWORD: postgres
+  redis:
+    image: redis:alpine
