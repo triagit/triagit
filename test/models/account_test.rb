@@ -12,11 +12,13 @@
 #  rules      :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  status     :integer          default(0), not null
 #
 # Indexes
 #
 #  index_accounts_on_service          (service)
 #  index_accounts_on_service_and_ref  (service,ref) UNIQUE
+#  index_accounts_on_status           (status)
 #
 
 require 'test_helper'

@@ -11,12 +11,14 @@
 #  rules      :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  status     :integer          default(0), not null
 #
 # Indexes
 #
 #  index_repos_on_account_id       (account_id)
 #  index_repos_on_service          (service)
 #  index_repos_on_service_and_ref  (service,ref) UNIQUE
+#  index_repos_on_status           (status)
 #
 # Foreign Keys
 #
@@ -26,4 +28,5 @@
 class Repo < ApplicationRecord
   belongs_to :account
   serialize :payload, JSONSerializer
+  scope :active, -> { where status: Constants::STATUS_ACTIVE }
 end

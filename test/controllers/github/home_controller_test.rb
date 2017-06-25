@@ -1,7 +1,9 @@
 require 'test_helper'
 
-class Github::HomeControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+module Github
+  class HomeControllerTest < ActionDispatch::IntegrationTest
+    # test "the truth" do
+    #   assert true
+    # end
+  end
 end

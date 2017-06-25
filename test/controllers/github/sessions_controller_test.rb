@@ -1,7 +1,9 @@
 require 'test_helper'
 
-class Github::SessionsControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+module Github
+  class SessionsControllerTest < ActionDispatch::IntegrationTest
+    # test "the truth" do
+    #   assert true
+    # end
+  end
 end

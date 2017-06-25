@@ -37,3 +37,4 @@ Account: email, billing, installation, type (github/gitlab/etc)
 ## TODO
 
 * What if same git repo in multiple integrations/accounts?
+  * +if using soft deletes (i.e. account active=false)

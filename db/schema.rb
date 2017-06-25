@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170625181542) do
+ActiveRecord::Schema.define(version: 20170625185845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,8 +37,10 @@ ActiveRecord::Schema.define(version: 20170625181542) do
     t.text "rules"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", limit: 2, default: 0, null: false
     t.index ["service", "ref"], name: "index_accounts_on_service_and_ref", unique: true
     t.index ["service"], name: "index_accounts_on_service"
+    t.index ["status"], name: "index_accounts_on_status"
   end
 
   create_table "events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -48,7 +50,9 @@ ActiveRecord::Schema.define(version: 20170625181542) do
     t.text "payload", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", limit: 2, default: 0, null: false
     t.index ["repo_id"], name: "index_events_on_repo_id"
+    t.index ["status"], name: "index_events_on_status"
   end
 
   create_table "repos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -60,9 +64,11 @@ ActiveRecord::Schema.define(version: 20170625181542) do
     t.text "rules"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", limit: 2, default: 0, null: false
     t.index ["account_id"], name: "index_repos_on_account_id"
     t.index ["service", "ref"], name: "index_repos_on_service_and_ref", unique: true
     t.index ["service"], name: "index_repos_on_service"
+    t.index ["status"], name: "index_repos_on_status"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -72,8 +78,10 @@ ActiveRecord::Schema.define(version: 20170625181542) do
     t.string "payload", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", limit: 2, default: 0, null: false
     t.index ["service", "ref"], name: "index_users_on_service_and_ref", unique: true
     t.index ["service"], name: "index_users_on_service"
+    t.index ["status"], name: "index_users_on_status"
   end
 
   add_foreign_key "account_users", "accounts"

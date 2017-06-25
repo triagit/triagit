@@ -9,10 +9,12 @@
 #  payload    :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  status     :integer          default(0), not null
 #
 # Indexes
 #
 #  index_events_on_repo_id  (repo_id)
+#  index_events_on_status   (status)
 #
 # Foreign Keys
 #
