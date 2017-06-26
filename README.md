@@ -1,4 +1,4 @@
-# triaggit
+# triagit
 
 ## Rules
 
