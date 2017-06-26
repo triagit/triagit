@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 @import url("https://unpkg.com/tachyons@4.7.0/css/tachyons.min.css");
 
 html {
@@ -12,4 +12,8 @@ html {
 
 .z--1 {
   z-index: -1;
+}
+
+.tracked-2 {
+  letter-spacing: .2rem;
 }

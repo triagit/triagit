@@ -25,4 +25,5 @@ class Account < ApplicationRecord
   serialize :payload, JSONSerializer
   has_many :repos
   scope :active, -> { where status: Constants::STATUS_ACTIVE }
+  scope :github, -> { where service: Constants::GITHUB }
 end

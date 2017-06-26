@@ -1,2 +1,2 @@
-"Github::SyncInstallsJob":
-  cron: "*/5 * * * *"
+"Github::TriageAllAccountsJob":
+  every: 5m
