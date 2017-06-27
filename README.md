@@ -2,18 +2,19 @@
 
 ## Design Thought Process
 
-* Rails
+* Ruby/Rails,
   - Official github octokit.rb client, first-class citizen
   - Automatic pagination with handling of rate limits, built-in ETag and caching, etc
   - ActiveJob, resque, UI dashboard, essential for background jobs
   - ActiveRecord with transparent and programmatic caching
   - And rest of everything we normally need (aka can be done with any language but easily integrated) - ORM, asset pipeline, user sign in oauth libraries, templating, etc etc
-  - Given all the above, think Rails is a good choice to begin with
-* Yet,
+  - Ruby response time is 160ms, Equally similar NodeJS response time is 130ms on heroku (mailcheck vs triagit), possible to optimize within and get <100ms response times with Ruby as well, so no REAL performance benefit moving to node, maybe only concurrency benefit, but if we don't do much stuff concurrently and queue up, then don't have to bother as well
+  - Given all the above, good choice to begin and sustain scale
+
+* Keeping in mind,
   - GitHub, User login, Website, etc - are all developed as individual pieces with separate namespaces with *nothing shared* architecture, except the bare minimum database models
   - The bare minimum models must NOT become fat models, use activeattr/MVVM styles for additional logic
-  - Always should be straight forward to separate out individual parts into separate apps
-  - Duplication is better than premature sharing
+  - Always should be straight forward to separate out individual parts into separate apps, duplication is better than premature sharing
   - And we know, Ruby is not screaming fast, but in the beginning horizontal scaling is good enough, and immediately adding all requests into a queue and processing them later with fault tolerance works great even without scale
 
 ## Rules
