@@ -39,15 +39,49 @@
 * Org-wide rules
 * Dashboard (subsequently users, roles, permissions)
 
-## Model Overview
+## Models Overview
 
 ```
 User: email, handle
 Account: email, billing, installation, type (github/gitlab/etc)
 	AccountUser: account <> user
-	Token
+	Token (ephemeral)
 	Repo: rules, settings, ...
 		Event
+```
+
+```
+TriageRule
+  GitHub::Rule::CloseOutdatedIssues
+  GitHub::Rule::CloseOutdatedPrs
+  ...
+
+  <Service>::Rule::<inflection>
+    docs, examples, etc
+    custom attributes for each rule
+      since 30days to close, label to apply when closing, etc
+    rules process/respond to events
+      treat everything as an event, even a simple cron trigger
+    no event interactions to begin with
+      unidirectional, fail with link to sign CLA, CLA signed, passes
+    same event can be processed by multiple rules
+      e.g. PR checks, cron triggers, etc
+    fan-in/fan-out?
+      what if multiple rules have to update a single PR?
+      what's the unit of exection? can everything be async?
+    queuing
+      event can have an immediate action (yellow PR)
+      and also a delayed/queued action (red/green PR)
+      two classes or one class accepting two events?
+    throttling, retrying
+      based on payment plans, github call limits, rule/repo priority, etc
+    usage tracking, auditing
+      non-retryable execution errors must be displayed in account UI
+    deprecation, versioning
+
+    new(repo, attributes, like since=30, etc)
+    validate(whether attributes are fine, account rule payment/access, etc)
+    execute(with event)
 ```
 
 ## TODO
