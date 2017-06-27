@@ -14,6 +14,7 @@
   - The bare minimum models must NOT become fat models, use activeattr/MVVM styles for additional logic
   - Always should be straight forward to separate out individual parts into separate apps
   - Duplication is better than premature sharing
+  - And we know, Ruby is not screaming fast, but in the beginning horizontal scaling is good enough, and immediately adding all requests into a queue and processing them later with fault tolerance works great even without scale
 
 ## Rules
 
