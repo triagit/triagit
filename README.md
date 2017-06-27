@@ -50,38 +50,62 @@ Account: email, billing, installation, type (github/gitlab/etc)
 		Event
 ```
 
+## Rules
+
+- docs, examples, for a rule, etc
+- custom attributes for each rule
+  - since 30days to close, label to apply when closing, etc
+- rules process/respond to events
+  - treat everything as an event, even a simple cron trigger
+- no event interactions to begin with
+  - unidirectional, fail with link to sign CLA, CLA signed, passes
+- same event can be processed by multiple rules
+  - e.g. PR checks, cron triggers, etc
+- fan-in/fan-out?
+  - multiple rules have to update a single PR
+  - what's the unit of exection? can everything be async?
+- queuing
+  - event can have an immediate action (yellow PR)
+  - and also a delayed/queued action (red/green PR)
+  - two classes or one class accepting two events?
+- throttling, retrying
+  - based on payment plans, github call limits, rule/repo priority, etc
+- usage tracking, auditing
+  - non-retryable execution errors must be displayed in account UI
+- visual editing/updating, validation, linting, ser/deser
+- higher context, metadata
+  - slack channel, total rules per repo/account
+  - repo admins, team admins, etc
+- deprecation, versioning
+- speed, constant ser/deser, etc
+- memory
+  - updating same comment over and over again
+  - sending a notification only for first time, etc
+
 ```
-TriageRule
-  GitHub::Rule::CloseOutdatedIssues
-  GitHub::Rule::CloseOutdatedPrs
+RulesContext
+  new(repo)
+    parse repo payload and return Rules object
+    cache Rules object if necessary
+  repo: Repo
+  rules: [Rule]
+  process(event)
+
+Rule
+  GitHub::CloseOutdatedIssues
+  GitHub::CloseOutdatedPrs
   ...
-
-  <Service>::Rule::<inflection>
-    docs, examples, etc
-    custom attributes for each rule
-      since 30days to close, label to apply when closing, etc
-    rules process/respond to events
-      treat everything as an event, even a simple cron trigger
-    no event interactions to begin with
-      unidirectional, fail with link to sign CLA, CLA signed, passes
-    same event can be processed by multiple rules
-      e.g. PR checks, cron triggers, etc
-    fan-in/fan-out?
-      what if multiple rules have to update a single PR?
-      what's the unit of exection? can everything be async?
-    queuing
-      event can have an immediate action (yellow PR)
-      and also a delayed/queued action (red/green PR)
-      two classes or one class accepting two events?
-    throttling, retrying
-      based on payment plans, github call limits, rule/repo priority, etc
-    usage tracking, auditing
-      non-retryable execution errors must be displayed in account UI
-    deprecation, versioning
-
-    new(repo, attributes, like since=30, etc)
+  service::inflection
+    new(rules_context, attributes={ since: 30, ... })
     validate(whether attributes are fine, account rule payment/access, etc)
     execute(with event)
+
+Missing piece: Action
+  fan-in/fan-out
+  multiple rules contributing to a PR update
+  handling failure-in-middle
+  Event > Rules > Action
+  if Actions are also Events, makes things complicated?
 ```
 
 ## TODO
