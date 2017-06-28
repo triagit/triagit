@@ -10,13 +10,13 @@ html class="min-h-100 relative"
 
   body
     header class="relative"
-      div class="absolute absolute--fill bg-black o-70 z--1"
+      div class="absolute absolute--fill bg-black-70 z--1"
       nav class="w-100 w-80-l h3 center f6 fw6 flex justify-between"
         div class="flex"
-          a class="flex white link dim items-center mr3 f4 fw8 ttu tracked-2 pv2" href=github_root_url triagit
+          a class="flex white link dim items-center mr3 f4 fw8 ttu tracked-2" href=github_root_url triagit
         div class="flex flex-grow"
           a class="flex link white dim items-center" href="#"
-            span class="ph2" =current_user.name
+            span class="pa2" =current_user.name
             = image_tag current_user.payload[:extra][:raw_info][:avatar_url], class: 'h2'
 
     main class="min-vh-100 w-100 w-80-l mt4 center"

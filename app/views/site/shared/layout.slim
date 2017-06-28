@@ -11,8 +11,8 @@ html class="min-h-100 relative"
     meta property="og:locale" content="en_US"
     meta property="og:type" content="website"
     meta property="og:description" content=""
-    meta property="og:url" content="https://mailcheck.in/"
-    meta property="og:site_name" content="Mailcheck"
+    meta property="og:url" content="https://www.triagit.com/"
+    meta property="og:site_name" content="Triagit"
     meta property="og:title" content=""
 
     == stylesheet_link_tag 'site', media: 'all'
@@ -20,15 +20,16 @@ html class="min-h-100 relative"
 
   body
     header class="relative"
-      div class="absolute absolute--fill bg-black o-70 z--1"
+      div class="absolute absolute--fill bg-black-70 z--1"
       nav class="w-100 w-80-l h3 center f6 fw6 flex justify-between"
         div class="flex"
-          a class="flex white link dim items-center mr3 f4 fw8 ttu tracked-2 pv2" href=site_root_url triagit
-          a class="flex white link dim items-center ph3" href="/#pricing" Features
+          a class="flex white link dim items-center pr3" href=site_root_url
+            span class="f4 fw8 ttu tracked-2" triagit
+          a class="flex white link dim items-center ph3" href="/#features" Features
           a class="flex white link dim items-center ph3" href="/#pricing" Pricing
         div class="flex flex-grow"
-          a class="flex link white dim items-center ph3" href="/auth/github" Login
-          a class="flex link white dim items-center ph3 pv2 bg-hot-pink" href="/auth/github" Sign up!
+          a class="flex link white items-center" href="/auth/github"
+            span class="pa3 bg-dark-pink grow" Sign up / Login
 
     main class="min-vh-100 w-100 w-80-l mt4 center"
       == yield
