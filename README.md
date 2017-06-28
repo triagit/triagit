@@ -34,6 +34,7 @@
 * must have label for certain diff paths (e.g. Migration approved)
 * move project boards based on labels
 * auto approve PRs from certain teams/users
+* auto-assign priority based on number of upvotes/+1s
 
 ## Other Requirements
 
