@@ -1,4 +1,4 @@
-# triagit
+# triagit [![staging](https://gitlab.com/triagit/triagit/badges/master/build.svg)](https://gitlab.com/triagit/triagit/commits/master)
 
 ## Rules
 
