@@ -4,7 +4,7 @@ html class="min-h-100 relative"
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
     meta http-equiv="X-UA-Compatible" content="IE=edge"
-    title triagit
+    title Triagit
     == stylesheet_link_tag 'site', media: 'all'
     == javascript_include_tag 'site'
 
@@ -13,7 +13,8 @@ html class="min-h-100 relative"
       div class="absolute absolute--fill bg-black-70 z--1"
       nav class="w-100 w-80-l h3 center f6 fw6 flex justify-between"
         div class="flex"
-          a class="flex white link dim items-center mr3 f4 fw8 ttu tracked-2" href=github_root_url triagit
+          a class="flex white link dim items-center ph2" href=github_root_url
+            span class="f4 fw8 ttu tracked-2" Triagit
         div class="flex flex-grow"
           a class="flex link white dim items-center" href="#"
             span class="pa2" =current_user.name
@@ -25,6 +26,6 @@ html class="min-h-100 relative"
     footer class="bg-black-50 white-70"
       div class="dt w-100 mw8 center pv2 v-mid f6"
         div class="dtc w6-ns v-mid"
-          span &copy;2017 triagit | All rights reserved
+          span &copy;2017 Triagit | All rights reserved
         div class="dtc w6-ns v-mid tr"
           a class="white-70 link dim dib pv2 ph3" href="/" Terms of use
