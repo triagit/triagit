@@ -48,7 +48,7 @@
   - since 30days to close, label to apply when closing, etc
 - rules process/respond to events
   - treat everything as an event, even a simple cron trigger
-- no event interactions to begin with
+- no cross-event interactions to begin with
   - unidirectional, fail with link to sign CLA, CLA signed, passes
 - same event can be processed by multiple rules
   - e.g. PR checks, cron triggers, etc
@@ -76,10 +76,11 @@
 ```
 RulesContext
   new(repo)
-    parse repo payload and return Rules object
+    read rules.yaml from repository and return Rules object
     cache Rules object if necessary
-  repo: Repo
-  rules: [Rule]
+    fail if any rule is not applicable for this repo or malformed rules.yaml
+  repo_id: Repo id
+  rules: arr[Rule]
   process(event)
 
 Rule
@@ -87,9 +88,8 @@ Rule
   GitHub::CloseOutdatedPrs
   ...
   service::inflection
-    new(rules_context, attributes={ since: 30, ... })
-    validate(whether attributes are fine, account rule payment/access, etc)
-    execute(with event)
+    new(ctx, attrs={ since: 30, ... }) -> fails if rule is not applicable to repo, etc
+    execute(event) -> manipulates actions
 
 Missing piece: Action
   fan-in/fan-out
