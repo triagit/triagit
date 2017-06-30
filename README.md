@@ -80,6 +80,7 @@ RulesContext
     cache Rules object if necessary
     fail if any rule is not applicable for this repo or malformed rules.yaml
   repo_id: Repo id
+  rev: revision
   rules: arr[Rule]
   process(event)
 
