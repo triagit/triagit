@@ -26,7 +26,15 @@ module Triagit
     # -- all .rb files in that directory are automatically loaded.
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
+      g.template_engine :slim
+      g.test_framework :rspec, fixture: false
+      g.view_specs false
+      g.helper_specs false
+      g.javascripts false
+      g.stylesheets false
+      g.stylesheet_engine :scss
     end
+
     config.time_zone = "UTC"
     config.action_controller.include_all_helpers = false
     config.middleware.delete ::Rack::Sendfile

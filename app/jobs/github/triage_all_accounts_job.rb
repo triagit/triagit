@@ -2,7 +2,7 @@ module Github
   class TriageAllAccountsJob < ApplicationJob
     queue_as :default
 
-    def perform(*args)
+    def perform(*_args)
       # TODO: Handle pagination of large data
       logger.info 'Starting', self.class.name
       Account.active.github.find_in_batches do |batch|

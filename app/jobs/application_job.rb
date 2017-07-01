@@ -1,5 +1,5 @@
 class ApplicationJob < ActiveJob::Base
-  before_perform do |job|
+  before_perform do |_job|
     ActiveRecord::Base.clear_active_connections!
   end
 

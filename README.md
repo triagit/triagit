@@ -23,6 +23,14 @@
 
 * Automatic organization-wide enforced rules
 * Dashboard with activities (subsequently users, roles, permissions)
+* Good audit logging
+  * Repo/Rule -> See recent events and actions
+  * Filter events -> some form of indexed tags/filters/facets
+  * Two way traceability, source -> action, action -> source
+* Testing
+  * Lots of mocks and data-driven test cases
+  * Few options for e2e testing, cannot be done on-demand
+  * Maybe can do regression testing, but lots of seeding required, restricted environment, cannot fake usernames/timestamps and so on
 
 ## Technical Thought Process
 
@@ -54,7 +62,19 @@
   - e.g. PR checks, cron triggers, etc
 - fan-in/fan-out?
   - multiple rules have to update a single PR
-  - what's the unit of exection? can everything be async?
+  - what's the unit of exection?
+- streaming
+  - cannot buffer in-memory, cannot use in-memory map/reduce per event
+  - has to be streaming requests and responses
+  - cannot fan-in, can only fan-out
+- unit of execution
+  - PR check: 1 event, 1 target (PR), multiple rules
+    - whole event is re-queued if failed
+    - "Details" page when PR is red?
+    - or each rule as a PR check, so no UI and no fan-in?
+  - Scheduled jobs: 1 rule, multiple targets (issues, prs, branches, etc)
+    - Breaking down scheduled jobs, how to?
+  - Other webhooks: decide later
 - queuing
   - event can have an immediate action (yellow PR)
   - and also a delayed/queued action (red/green PR)
