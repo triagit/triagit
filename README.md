@@ -18,6 +18,7 @@
 * move project boards based on labels
 * auto approve PRs from certain teams/users
 * auto-assign priority based on number of upvotes/+1s
+* lock issue/PR comments based on # of comments, to prevent spam
 
 ## Other Requirements
 
