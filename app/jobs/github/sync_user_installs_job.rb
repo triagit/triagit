@@ -37,9 +37,10 @@ module Github
 
     def sync_gh_repo(_user, account, gh_repo)
       repo = Repo.find_or_initialize_by(
-        service: Constants::GITHUB, account: account, ref: gh_repo.id
+        service: Constants::GITHUB, account: account, ref: gh_repo.full_name
       )
       repo.name = gh_repo.full_name
+      repo.ref = gh_repo.full_name
       repo.payload = gh_repo.to_h
       repo.status ||= Constants::STATUS_ACTIVE
       repo.save!
