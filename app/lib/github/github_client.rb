@@ -7,6 +7,10 @@ module Github
       Octokit::Client.new(access_token: token[:token])
     end
 
+    def self.new_repo_client(repo)
+      new_account_client repo.account
+    end
+
     def self.new_user_client(user)
       Octokit::Client.new(access_token: user.payload[:credentials][:token])
     end

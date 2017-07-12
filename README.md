@@ -68,17 +68,20 @@
   - has to be streaming requests and responses
   - cannot fan-in, can only fan-out
 - unit of execution
-  - PR check: 1 event, 1 target (PR), multiple rules
+  - PR check: 1 trigger, 1 target (PR), multiple rules
+    - needs context: pr/issue/entity (whole hook event is context)
     - whole event is re-queued if failed
-    - "Details" page when PR is red?
-    - or each rule as a PR check, so no UI and no fan-in?
-  - Scheduled jobs: 1 rule, multiple targets (issues, prs, branches, etc)
+    - "Details" page when PR is red? or each rule as PR check? or comment as UI sonarqube style?
+  - Scheduled jobs: 1 trigger, 1 rule, multiple targets (issues, prs, branches, etc)
     - Breaking down scheduled jobs, how to?
+    - retry policy - cron event is acked, but each intermediate event can be retried individually
   - Other webhooks: decide later
 - queuing
   - event can have an immediate action (yellow PR)
   - and also a delayed/queued action (red/green PR)
   - two classes or one class accepting two events?
+  - upon receiving webhook - mark PR as yellow, and then proceed to rest
+  - CONFLICT: if each rule is a yellow flag, then what to mark as yellow here?
 - throttling, retrying
   - based on payment plans, github call limits, rule/repo priority, etc
 - usage tracking, auditing
@@ -120,6 +123,30 @@ Missing piece: Action
   if Actions are also Events, makes things complicated?
 ```
 
+## yaml syntax (change based on requirements above)
+
+```
+rules:
+  close_outdated_prs:
+    days: 10
+    ignore_labels: a, b, c
+    apply_label: flagged
+  close_outdated_issues:
+    older: 10d
+    ignore_labels: a, b, c
+    apply_label: flagged
+  delete_merged_branches:
+    days: 10
+  require_signed_commits:
+    ignore_authors: @team, @handle, comma separated list
+  auto_approve:
+    authors: @team, @handle, comma separated list
+  require_commit_message_format:
+    regex: a regex here
+  require_cla:
+    cla_file: CLA filename, with or without full git url
+```
+
 ## DB Models Overview
 
 ```
@@ -130,6 +157,19 @@ Account: email, billing, installation, type (github/gitlab/etc)
   Repo: rules, settings, ...
     Event
 ```
+
+## Flow
+
+webhook
+  sanity checks - org/repo, active billing/installation, etc
+  save webhook event
+  queue webhook job
+  if PR? mark PR as yellow?
+
+webhook job
+  issue? pr?
+
+
 
 ## TODO
 
