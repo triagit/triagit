@@ -7,7 +7,8 @@ module Github
         return logger.error 'Invalid argument passed', args: args
       end
       repo = args[0]
-      logger.info 'Triaging repo', repo: repo
+      logger.info 'Triaging repo', repo: repo.ref
+      Github::Rules::CloseOutdatedIssues.new.execute repo
     end
   end
 end
