@@ -6,9 +6,9 @@ module Github
       unless args.present? && args[0].is_a?(User) && args[0].service == Constants::GITHUB
         return logger.error 'Invalid argument passed', args: args
       end
-      logger.info 'SyncUserInstallsJob', user: user.id, service: user.service
       user = args[0]
-      client = GithubClient.new_user_client(user)
+      logger.info 'SyncUserInstallsJob', user: user.id, service: user.service
+      client = GithubClient.instance.new_user_client(user)
       opts = client.ensure_api_media_type(:integrations, {})
       gh_installs = client.paginate '/user/installations', opts
       gh_installs.installations.each do |gh_install|
@@ -37,7 +37,7 @@ module Github
       account
     end
 
-    def sync_gh_repo(_user, account, gh_repo)
+    def sync_gh_repo(user, account, gh_repo)
       logger.info 'SyncUserInstallsJob sync_gh_repo', user: user.id, account: account.ref, repo: gh_repo.full_name
       repo = Repo.find_or_initialize_by(
         service: Constants::GITHUB, account: account, ref: gh_repo.full_name

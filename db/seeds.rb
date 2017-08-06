@@ -10,5 +10,5 @@ now = Time.zone.now
 
 # Populate github repo with dummy issues/prs/projects/cards/etc
 repo = Repo.find_by service: Constants::GITHUB, name: "triagit/test-repo"
-client = Github::GithubClient.new_repo_client repo
+client = Github::GithubClient.instance.new_repo_client repo
 client.create_issue repo.name, "Test issue #{now.to_formatted_s :short}", "Test issue created on #{now.to_formatted_s :short}"
