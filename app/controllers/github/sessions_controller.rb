@@ -8,7 +8,7 @@ module Github
       user.status ||= Constants::STATUS_ACTIVE
       user.save!
 
-      Github::SyncUserInstallsJob.perform_later user
+      Github::UserSyncInstallsJob.perform_later user
 
       session[:uid] = user.id
       redirect_to github_root_url

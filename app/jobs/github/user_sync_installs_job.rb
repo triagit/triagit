@@ -1,5 +1,5 @@
 module Github
-  class SyncUserInstallsJob < ApplicationJob
+  class UserSyncInstallsJob < ApplicationJob
     queue_as :default
 
     def perform(*args)
@@ -7,7 +7,7 @@ module Github
         return logger.error 'Invalid argument passed', args: args
       end
       user = args[0]
-      logger.info 'SyncUserInstallsJob', user: user.id, service: user.service
+      logger.info self.class.name, user: user.id, service: user.service
       client = GithubClient.instance.new_user_client(user)
       opts = client.ensure_api_media_type(:integrations, {})
       gh_installs = client.paginate '/user/installations', opts
@@ -23,7 +23,7 @@ module Github
     protected
 
     def sync_gh_install(user, gh_install)
-      logger.info 'SyncUserInstallsJob sync_gh_install', user: user.id, install: gh_install.id
+      logger.info 'sync_gh_install', user: user.id, install: gh_install.id
       account = Account.find_or_initialize_by(
         service: Constants::GITHUB, ref: gh_install.id
       )
@@ -38,7 +38,7 @@ module Github
     end
 
     def sync_gh_repo(user, account, gh_repo)
-      logger.info 'SyncUserInstallsJob sync_gh_repo', user: user.id, account: account.ref, repo: gh_repo.full_name
+      logger.info 'sync_gh_repo', user: user.id, account: account.ref, repo: gh_repo.full_name
       repo = Repo.find_or_initialize_by(
         service: Constants::GITHUB, account: account, ref: gh_repo.full_name
       )

@@ -1,5 +1,5 @@
 module Github
-  class TriageAccountJob < ApplicationJob
+  class AccountTriageJob < ApplicationJob
     queue_as :default
 
     def perform(*args)
@@ -7,10 +7,10 @@ module Github
         return logger.error 'Invalid argument passed', args: args
       end
       account = args[0]
-      logger.info 'TriageAccountJob', account: account.ref
+      logger.info self.class.name, account: account.ref
       account.repos.active.find_in_batches do |batch|
         batch.each do |repo|
-          TriageRepoJob.perform_later repo
+          RepoTriageJob.perform_later repo
         end
       end
     end

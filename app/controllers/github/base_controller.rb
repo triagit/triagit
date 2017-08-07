@@ -6,7 +6,7 @@ module Github
 
     protected
 
-    def require_login
+    def require_login!
       return if session[:uid].present? && current_user.present?
       redirect_to '/auth/github'
     end

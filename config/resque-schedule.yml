@@ -1,2 +1,2 @@
-"Github::TriageAllAccountsJob":
+"Github::AppTriageAllJob":
   every: 5m

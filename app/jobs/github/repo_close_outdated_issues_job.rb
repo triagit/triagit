@@ -1,5 +1,5 @@
 module Github
-  class CloseOutdatedIssuesJob < ApplicationJob
+  class RepoCloseOutdatedIssuesJob < ApplicationJob
     queue_as :default
 
     def perform(*args)
@@ -7,7 +7,7 @@ module Github
         return logger.error 'Invalid argument passed', args: args
       end
       repo = args[0]
-      logger.info 'CloseOutdatedIssuesJob', repo: repo.name
+      logger.info self.class.name, repo: repo.name
       api_client = Github::GithubClient.instance.new_repo_client repo
       gql_client = Github::GithubClient.instance.new_graphql_client api_client
       repo_owner, repo_name = repo.name.split('/')
@@ -23,7 +23,7 @@ module Github
     private
 
     def outdated?(repo, issue)
-      outdated = (now - Time.parse(issue.updated_at)) > 15.minutes
+      outdated = (now - Time.parse(issue.updated_at)) > 10.minutes
     end
 
     def now

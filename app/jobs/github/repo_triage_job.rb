@@ -1,5 +1,5 @@
 module Github
-  class TriageRepoJob < ApplicationJob
+  class RepoTriageJob < ApplicationJob
     queue_as :default
 
     def perform(*args)
@@ -7,8 +7,8 @@ module Github
         return logger.error 'Invalid argument passed', args: args
       end
       repo = args[0]
-      logger.info 'Triaging repo', repo: repo.ref
-      CloseOutdatedIssuesJob.perform_later repo
+      logger.info self.class.name, repo: repo.ref
+      RepoCloseOutdatedIssuesJob.perform_later repo
     end
   end
 end
