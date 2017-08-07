@@ -170,8 +170,6 @@ webhook
 webhook job
   issue? pr?
 
-
-
 ## TODO
 
 * What if same git repo in multiple integrations/accounts?

@@ -8,7 +8,7 @@ module Github
       end
       repo = args[0]
       logger.info 'Triaging repo', repo: repo.ref
-      Github::Rules::CloseOutdatedIssues.new.execute repo
+      CloseOutdatedIssuesJob.perform_later repo
     end
   end
 end
