@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   scope '/github', module: 'github', as: 'github' do
     resources :sessions, only: [:new, :destroy]
     resources :home, only: [:index]
+    post :webhook, to: 'webhook#create'
     root to: 'home#index'
   end
 
