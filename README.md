@@ -1,13 +1,24 @@
 # triagit [![staging](https://gitlab.com/triagit/triagit/badges/master/build.svg)](https://gitlab.com/triagit/triagit/commits/master)
 
+## Local development
+
+* `docker-compose build`: Build image
+* `docker-compose up -d postgres redis`: Starts postgres and redis in the background
+* `docker-compose run --rm --service-ports web bash`: Starts development shell
+  * `rake db:create db:migrate`: creates and initializes database
+  * `rake spec`: runs tests (not much for now)
+  * `foreman start -f Procfile.dev`: start server
+  * `http://<your-docker-ip>:3000`
+
 ## Rules
 
 * close/flag outdated issue
 * close/flag outdated pr
+* commit message must be of given format
+
 * delete outdated/PR-merged branches
 * require signed commits
 * require lgtm/approval from N accounts
-* commmit message must be of given format
 * must have signed CLA
 * auto-assign label upon creation
 * auto-assign label upon diff paths
@@ -19,6 +30,14 @@
 * auto approve PRs from certain teams/users
 * auto-assign priority based on number of upvotes/+1s
 * lock issue/PR comments based on # of comments, to prevent spam
+
+## Non-core requirements
+
+* Billing, invoicing, emails
+* Website, branding, A/B testing, communication, blog, SEO
+* Marketing, meetups, influencers, schedule, beta customers, ...
+* Company, incorporation, taxes, ...
+* Support (freshdesk)
 
 ## Other Requirements
 
@@ -154,7 +173,6 @@ rules:
 User: email, handle
 Account: email, billing, installation, type (github/gitlab/etc)
   AccountUser: account <> user
-  Token (ephemeral)
   Repo: rules, settings, ...
     Event
 ```
