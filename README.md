@@ -30,6 +30,7 @@
 * auto approve PRs from certain teams/users
 * auto-assign priority based on number of upvotes/+1s
 * lock issue/PR comments based on # of comments, to prevent spam
+* PR to slack integration. Message whenever an action occurs on a PR.
 
 ## Non-core requirements
 
@@ -83,6 +84,7 @@
 - fan-in/fan-out?
   - multiple rules have to update a single PR
   - what's the unit of exection?
+- Failures? Need to notify, either via slack/mail etc.
 - streaming
   - cannot buffer in-memory, cannot use in-memory map/reduce per event
   - has to be streaming requests and responses
@@ -141,6 +143,7 @@ Missing piece: Action
   handling failure-in-middle
   Event > Rules > Action
   if Actions are also Events, makes things complicated?
+  When needed: issue intermediate events that get fed into the queue. Keeps logic simple.  
 ```
 
 ## yaml syntax (change based on requirements above)
