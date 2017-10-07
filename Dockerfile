@@ -1,4 +1,4 @@
-FROM ruby:2.4
+FROM ruby:2.4.1
 
 RUN wget -qO /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.1.3/dumb-init_1.1.3_amd64 && \
     chmod +x /usr/bin/dumb-init && \
