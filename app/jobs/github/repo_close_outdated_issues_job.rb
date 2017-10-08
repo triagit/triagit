@@ -7,23 +7,25 @@ module Github
         return logger.error 'Invalid argument passed', args: args
       end
       repo = args[0]
+      labels = ["Inactive", "RIP"]
       logger.info self.class.name, repo: repo.name
       api_client = Github::GithubClient.instance.new_repo_client repo
       gql_client = Github::GithubClient.instance.new_graphql_client api_client
       repo_owner, repo_name = repo.name.split('/')
       res = gql_client.query self.class.outdated_query, variables: { owner: repo_owner, repo: repo_name, size: 50 }
       outdated_issues = res.data.repository.issues.nodes.select do |issue|
-        outdated? repo, issue
+        outdated? issue
       end
       outdated_issues.each do |issue|
+        api_client.add_labels_to_an_issue(repo.ref, issue.number, labels)
         api_client.close_issue(repo.ref, issue.number)
       end
     end
 
     private
 
-    def outdated?(repo, issue)
-      outdated = (now - Time.parse(issue.updated_at)) > 10.minutes
+    def outdated?(issue)
+      now - Time.parse(issue.updated_at) > 2.minutes
     end
 
     def now
