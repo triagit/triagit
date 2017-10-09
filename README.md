@@ -15,7 +15,6 @@
 * close/flag outdated issue
 * close/flag outdated pr
 * commit message must be of given format
-
 * delete outdated/PR-merged branches
 * require signed commits
 * require lgtm/approval from N accounts
@@ -30,6 +29,7 @@
 * auto approve PRs from certain teams/users
 * auto-assign priority based on number of upvotes/+1s
 * lock issue/PR comments based on # of comments, to prevent spam
+* auto-assign tag based on number of upvotes or +1s
 * PR to slack integration. Message whenever an action occurs on a PR.
 
 ## Non-core requirements
