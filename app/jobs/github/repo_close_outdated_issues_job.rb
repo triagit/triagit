@@ -3,18 +3,22 @@ module Github
     queue_as :default
 
     def perform(*args)
-      unless args.present? && args[0].is_a?(Repo)
+      begin
+        repo = args[0]
+        rule_name = args[1]
+        logger.info self.class.name, repo: repo.name, rule: rule_name
+        rule = repo.rules[:rules].find{ |r| r[:name] == rule_name } rescue nil
+      rescue => e
         return logger.error 'Invalid argument passed', args: args
       end
-      repo = args[0]
-      labels = ["Inactive", "RIP"]
-      logger.info self.class.name, repo: repo.name
+
+      labels = rule[:options][:apply_labels] rescue []
       api_client = Github::GithubClient.instance.new_repo_client repo
       gql_client = Github::GithubClient.instance.new_graphql_client api_client
       repo_owner, repo_name = repo.name.split('/')
       res = gql_client.query self.class.outdated_query, variables: { owner: repo_owner, repo: repo_name, size: 50 }
       outdated_issues = res.data.repository.issues.nodes.select do |issue|
-        outdated? issue
+        outdated? rule, issue
       end
       outdated_issues.each do |issue|
         api_client.add_labels_to_an_issue(repo.ref, issue.number, labels)
@@ -24,8 +28,9 @@ module Github
 
     private
 
-    def outdated?(issue)
-      now - Time.parse(issue.updated_at) > 2.minutes
+    def outdated?(rule, issue)
+      oldest = ActiveSupport::Duration.parse(rule[:options][:older_than] || 'P1Y').ago
+      Time.parse(issue.updated_at) < oldest
     end
 
     def now

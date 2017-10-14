@@ -8,7 +8,20 @@ module Github
       end
       repo = args[0]
       logger.info self.class.name, repo: repo.ref
-      RepoCloseOutdatedIssuesJob.perform_later repo
+
+      rules = repo.rules
+      rules[:rules].each do |rule|
+        process_rule(repo, rule)
+      end
+    end
+
+    def process_rule(repo, rule)
+      case rule[:rule]
+      when "close_outdated_issues"
+        RepoCloseOutdatedIssuesJob.perform_later repo, rule[:name]
+      else
+        logger.error 'Unsupported rule', repo: repo.ref, rule: rule
+      end
     end
   end
 end
