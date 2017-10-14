@@ -12,17 +12,17 @@ module Github
       opts = client.ensure_api_media_type(:integrations, {})
       gh_installs = client.paginate '/user/installations', opts
       gh_installs.installations.each do |gh_install|
-        account = sync_gh_install user, gh_install
+        account = sync_gh_install client, user, gh_install
         gh_repos = client.paginate "/user/installations/#{gh_install.id}/repositories", opts
         gh_repos.repositories.each do |gh_repo|
-          sync_gh_repo user, account, gh_repo
+          sync_gh_repo client, user, account, gh_repo
         end
       end
     end
 
     protected
 
-    def sync_gh_install(user, gh_install)
+    def sync_gh_install(client, user, gh_install)
       logger.info 'sync_gh_install', user: user.id, install: gh_install.id
       account = Account.find_or_initialize_by(
         service: Constants::GITHUB, ref: gh_install.id
@@ -37,17 +37,33 @@ module Github
       account
     end
 
-    def sync_gh_repo(user, account, gh_repo)
+    def sync_gh_repo(client, user, account, gh_repo)
+      # TODO: Handle repository renames
       logger.info 'sync_gh_repo', user: user.id, account: account.ref, repo: gh_repo.full_name
       repo = Repo.find_or_initialize_by(
         service: Constants::GITHUB, account: account, ref: gh_repo.full_name
       )
+
+      begin
+        rules = load_rules(repo)
+      rescue => e
+        logger.error 'Invalid triagit.yaml', repo: gh_repo.full_name
+        return
+      end
+
       repo.name = gh_repo.full_name
       repo.ref = gh_repo.full_name
       repo.payload = gh_repo.to_h
       repo.status ||= Constants::STATUS_ACTIVE
+      repo.rules = rules
       repo.save!
       repo
+    end
+
+    def load_rules(repo)
+      client = GithubClient.instance.new_repo_client(repo)
+      yaml_file = client.contents(repo.ref, path: 'triagit.yaml')
+      yaml = YAML.load Base64.decode64(yaml_file.content)
     end
   end
 end

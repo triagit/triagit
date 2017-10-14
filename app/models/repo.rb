@@ -28,5 +28,6 @@
 class Repo < ApplicationRecord
   belongs_to :account
   serialize :payload, JSONSerializer
+  serialize :rules, JSONSerializer
   scope :active, -> { where status: Constants::STATUS_ACTIVE }
 end
