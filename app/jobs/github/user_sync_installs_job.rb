@@ -64,6 +64,8 @@ module Github
       client = GithubClient.instance.new_repo_client(repo)
       yaml_file = client.contents(repo.ref, path: 'triagit.yaml')
       yaml = YAML.load Base64.decode64(yaml_file.content)
+      yaml.deep_symbolize_keys!
+      yaml
     end
   end
 end
