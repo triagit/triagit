@@ -13,6 +13,7 @@ module Github
       end
 
       labels = rule[:options][:apply_labels] rescue []
+      issue_comment = rule[:options][:add_comment] rescue ""
       api_client = Github::GithubClient.instance.new_repo_client repo
       gql_client = Github::GithubClient.instance.new_graphql_client api_client
       repo_owner, repo_name = repo.name.split('/')
@@ -23,6 +24,7 @@ module Github
       outdated_issues.each do |issue|
         api_client.add_labels_to_an_issue(repo.ref, issue.number, labels)
         api_client.close_issue(repo.ref, issue.number)
+        api_client.add_comment(repo.ref, issue.number, issue_comment)
       end
     end
 
