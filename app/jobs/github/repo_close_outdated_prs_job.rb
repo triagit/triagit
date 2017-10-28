@@ -1,5 +1,5 @@
 module Github
-  class RepoCloseOutdatedIssuesJob < ApplicationJob
+  class RepoCloseOutdatedPrsJob < ApplicationJob
     queue_as :default
 
     def perform(*args)
@@ -13,42 +13,37 @@ module Github
       end
 
       labels = rule[:options][:apply_labels] rescue []
-      issue_comment = rule[:options][:add_comment] rescue ""
+      pr_comment = rule[:options][:add_comment] rescue ""
       api_client = Github::GithubClient.instance.new_repo_client repo
       gql_client = Github::GithubClient.instance.new_graphql_client api_client
       repo_owner, repo_name = repo.name.split('/')
-      res = gql_client.query self.class.outdated_query, variables: { owner: repo_owner, repo: repo_name, size: 50 }
-      outdated_issues = res.data.repository.issues.nodes.select do |issue|
-        outdated? rule, issue
+      res = gql_client.query self.class.outdated_pr_query, variables: { owner: repo_owner, repo: repo_name, size: 50 }
+      outdated_prs = res.data.repository.pull_requests.nodes.select do |pr|
+        outdated? rule, pr
       end
-      outdated_issues.each do |issue|
-        api_client.add_labels_to_an_issue(repo.ref, issue.number, labels)
-        api_client.close_issue(repo.ref, issue.number)
-        api_client.add_comment(repo.ref, issue.number, issue_comment) unless issue_comment.empty?
+      outdated_prs.each do |pr|
+        # api_client.close_issue(repo.ref, issue.number)
+        api_client.add_comment(repo.ref, pr.number, pr_comment) unless pr_comment.empty?
+        api_client.close_pull_request(repo.ref, pr.number)
       end
     end
 
     private
 
-    def outdated?(rule, issue)
+    def outdated?(rule, pr)
       oldest = ActiveSupport::Duration.parse(rule[:options][:older_than] || 'P1Y').ago
-      Time.parse(issue.updated_at) < oldest
+      Time.parse(pr.updated_at) < oldest
     end
 
     def now
       @now ||= Time.zone.now
     end
 
-    def self.outdated_query
+    def self.outdated_pr_query
       @outdated_query ||= Github::GithubClient.instance.new_graphql_query <<-'GRAPHQL'
         query($owner:String!, $repo:String!, $size:Int!, $after:String) {
           repository(owner: $owner, name: $repo) {
-            issues(states:OPEN, first: $size, after:$after, orderBy: {field:UPDATED_AT, direction: ASC}) {
-              totalCount
-              pageInfo {
-                hasNextPage
-                endCursor
-              }
+            pullRequests(states:OPEN, first: $size, after:$after, orderBy: {field:UPDATED_AT, direction: ASC}) {
               nodes {
                 number
                 createdAt
@@ -56,15 +51,6 @@ module Github
                 url
                 author {
                   login
-                }
-                labels(first:20) {
-                  nodes {
-                    name
-                  }
-                }
-                milestone {
-                  state
-                  dueOn
                 }
               }
             }

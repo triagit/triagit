@@ -19,6 +19,8 @@ module Github
       case rule[:rule]
       when "close_outdated_issues"
         RepoCloseOutdatedIssuesJob.perform_later repo, rule[:name]
+      when "close_outdated_pr"
+        RepoCloseOutdatedPrsJob.perform_later repo, rule[:name]
       else
         logger.error 'Unsupported rule', repo: repo.ref, rule: rule
       end
