@@ -22,7 +22,7 @@ module Github
       when "close_outdated_pr"
         RepoCloseOutdatedPrsJob.perform_later repo, rule[:name]
       else
-        logger.error 'Unsupported rule', repo: repo.ref, rule: rule
+        # TODO: Ignore PR checks and other "known" rules that are not scheduled
       end
     end
   end

@@ -10,7 +10,7 @@ module Github
       return head 400 unless repo
 
       event = Event.create! name: request.env['HTTP_X_GITHUB_EVENT'], ref: request.env['HTTP_X_GITHUB_DELIVERY'],
-        status: Constants::STATUS_ACTIVE, payload: request.params, repo: repo
+        status: Constants::STATUS_ACTIVE, payload: JSONSerializer.load(payload), repo: repo
       Github::WebhookJob.perform_later event
     end
 
