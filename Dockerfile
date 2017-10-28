@@ -9,6 +9,7 @@ COPY Gemfile* /src/
 RUN bundle install
 
 ENV RAILS_ENV development
+ENV DISABLE_SPRING 1
 ENV LANG C.UTF-8
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
