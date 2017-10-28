@@ -37,6 +37,8 @@ module Triagit
 
     config.time_zone = "UTC"
     config.action_controller.include_all_helpers = false
+    config.action_controller.default_url_options = { host: ENV['BASE_URL'] } if ENV['BASE_URL']
+
     config.middleware.delete ::Rack::Sendfile
     config.middleware.delete ::Rack::ETag
     config.middleware.delete ::Rack::MethodOverride
