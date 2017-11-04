@@ -10,20 +10,22 @@ module Github
       logger.info self.class.name, user: user.id, service: user.service
       client = GithubClient.instance.new_user_client(user)
       opts = client.ensure_api_media_type(:integrations, {})
+      before_sync_timestamp = DateTime.now
       gh_installs = client.paginate '/user/installations', opts
       gh_installs.installations.each do |gh_install|
-        account = sync_gh_install client, user, gh_install
-        gh_repos = client.paginate "/user/installations/#{gh_install.id}/repositories", opts
-        gh_repos.repositories.each do |gh_repo|
-          sync_gh_repo client, user, account, gh_repo
-        end
+        sync_gh_install client, user, gh_install
       end
+
+      # Remove old/revoked access accounts
+      AccountUser.where(user: user).where('updated_at < ?', before_sync_timestamp).delete_all
     end
 
     protected
 
     def sync_gh_install(client, user, gh_install)
       logger.info 'sync_gh_install', user: user.id, install: gh_install.id
+      before_sync_timestamp = DateTime.now
+      opts = client.ensure_api_media_type(:integrations, {})
       account = Account.find_or_initialize_by(
         service: Constants::GITHUB, ref: gh_install.id
       )
@@ -31,10 +33,24 @@ module Github
       account.payload = gh_install.to_h
       account.token ||= SecureRandom.uuid
       account.plan ||= Constants::PLAN_FREE_0
-      account.status ||= Constants::STATUS_ACTIVE
+      account.status = Constants::STATUS_ACTIVE
+      account.updated_at = DateTime.now
       account.save!
-      AccountUser.find_or_create_by! user: user, account: account
-      account
+
+      gh_repos = client.paginate "/user/installations/#{gh_install.id}/repositories", opts
+      gh_repos.repositories.each do |gh_repo|
+        sync_gh_repo client, user, account, gh_repo
+      end
+
+      # Remove old/deleted repos
+      account.repos.where('updated_at < ?', before_sync_timestamp).update_all(status: Constants::STATUS_INACTIVE)
+      sync_user_account user, account
+    end
+
+    def sync_user_account(user, account)
+      account_user = AccountUser.find_or_initialize_by(user: user, account: account)
+      account_user.updated_at = DateTime.now
+      account_user.save!
     end
 
     def sync_gh_repo(client, user, account, gh_repo)
@@ -44,28 +60,15 @@ module Github
         service: Constants::GITHUB, account: account, ref: gh_repo.full_name
       )
 
-      begin
-        rules = load_rules(repo)
-      rescue => e
-        logger.error 'Invalid triagit.yaml', repo: gh_repo.full_name
-        return
-      end
-
       repo.name = gh_repo.full_name
       repo.ref = gh_repo.full_name
       repo.payload = gh_repo.to_h
-      repo.status ||= Constants::STATUS_ACTIVE
-      repo.rules = rules
+      repo.status = Constants::STATUS_ACTIVE
+      repo.updated_at = DateTime.now
       repo.save!
-      repo
-    end
 
-    def load_rules(repo)
-      client = GithubClient.instance.new_repo_client(repo)
-      yaml_file = client.contents(repo.ref, path: '.github/triagit.yaml')
-      yaml = YAML.load Base64.decode64(yaml_file.content)
-      yaml.deep_symbolize_keys!
-      yaml
+      RepoSyncJob.perform_later repo
+      repo
     end
   end
 end

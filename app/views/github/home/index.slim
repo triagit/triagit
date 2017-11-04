@@ -1,8 +1,8 @@
 ul
-  - current_user.accounts.each do |account|
+  - current_user.accounts.active.each do |account|
     li
       span = account.name
       ul
-        - account.repos.each do |repo|
+        - account.repos.active.each do |repo|
           li
             span = repo.name

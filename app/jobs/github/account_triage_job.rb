@@ -10,6 +10,7 @@ module Github
       logger.info self.class.name, account: account.ref
       account.repos.active.find_in_batches do |batch|
         batch.each do |repo|
+          RepoSyncJob.perform_later repo
           RepoTriageJob.perform_later repo
         end
       end
