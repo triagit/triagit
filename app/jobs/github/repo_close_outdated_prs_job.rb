@@ -2,6 +2,8 @@ module Github
   class RepoCloseOutdatedPrsJob < ApplicationJob
     queue_as :default
 
+    DEFAULT_LABEL = "outdated"
+
     def perform(*args)
       begin
         repo = args[0]
@@ -12,7 +14,7 @@ module Github
         return logger.error 'Invalid argument passed', args: args
       end
 
-      labels = rule[:options][:apply_labels] rescue []
+      label = (rule[:options][:apply_labels] rescue nil) || DEFAULT_LABEL
       pr_comment = rule[:options][:add_comment] rescue ""
       api_client = Github::GithubClient.instance.new_repo_client repo
       gql_client = Github::GithubClient.instance.new_graphql_client api_client
@@ -22,7 +24,7 @@ module Github
         outdated? rule, pr
       end
       outdated_prs.each do |pr|
-        # api_client.close_issue(repo.ref, issue.number)
+        api_client.add_labels_to_an_issue(repo.ref, pr.number, [label])
         api_client.add_comment(repo.ref, pr.number, pr_comment) unless pr_comment.empty?
         api_client.close_pull_request(repo.ref, pr.number)
       end
