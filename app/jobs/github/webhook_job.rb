@@ -19,6 +19,8 @@ module Github
       case rule[:rule]
       when "pr_format"
         CheckPrFormatJob.perform_later event, rule[:name]
+      when "pr_size_check"
+        CheckPrSizeJob.perform_later event, rule[:name]
       end
     end
   end

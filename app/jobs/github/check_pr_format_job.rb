@@ -24,7 +24,7 @@ module Github
 
     def valid?(event)
       return event && event.is_a?(Event) &&
-        event.repo.service == Constants::GITHUB && 
+        event.repo.service == Constants::GITHUB &&
         event.name == WEBHOOK_EVENT_NAME &&
         WEBHOOK_EVENT_ACTIONS.include?(event.payload[:action])
     end
@@ -40,7 +40,10 @@ module Github
       add_label = rule[:options][:apply_label].strip
       add_comment = rule[:options][:add_comment].strip
       if title_matches
-        api_client.remove_label(repo.ref, pr_number, add_label) if add_label.present?
+        labels_in_pr = api_client.labels_for_issue(repo.ref, pr_number)
+        if add_label.present? && labels_in_pr.member?(add_label)
+          api_client.remove_label(repo.ref, pr_number, add_label)
+        end
         if add_comment.present?
           api_client.issue_comments(repo.ref, pr_number).each do |comment|
             if comment[:body].strip == add_comment
