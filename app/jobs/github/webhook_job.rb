@@ -21,6 +21,8 @@ module Github
         CheckPrFormatJob.perform_later event, rule[:name]
       when "pr_size_check"
         CheckPrSizeJob.perform_later event, rule[:name]
+      when "sync_triagit"
+        RepoSyncJob.perform_later event.repo, event
       end
     end
   end

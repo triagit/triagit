@@ -40,7 +40,7 @@ module Github
       add_label = rule[:options][:apply_label].strip
       add_comment = rule[:options][:add_comment].strip
       if title_matches
-        labels_in_pr = api_client.labels_for_issue(repo.ref, pr_number)
+        labels_in_pr = api_client.labels_for_issue(repo.ref, pr_number).collect { |l| l.name }
         if add_label.present? && labels_in_pr.member?(add_label)
           api_client.remove_label(repo.ref, pr_number, add_label)
         end
