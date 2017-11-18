@@ -28,7 +28,7 @@ module Github
       private_key = OpenSSL::PKey::RSA.new(private_pem)
       payload = {
         iat: Time.now.to_i,
-        exp: Time.now.to_i + 600,
+        exp: Time.now.to_i + 300,
         iss: ENV['GITHUB_APP_ID']
       }
       bearer_token = JWT.encode(payload, private_key, 'RS256')

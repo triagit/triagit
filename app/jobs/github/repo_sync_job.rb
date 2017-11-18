@@ -14,7 +14,8 @@ module Github
         repo.updated_at = DateTime.now
         repo.save!
       rescue => e
-        logger.error 'Invalid triagit.yaml', repo: gh_repo.full_name
+        logger.error 'Invalid triagit.yaml', repo: repo.name
+        logger.error e
         return
       end
     end
