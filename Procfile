@@ -1,1 +1,1 @@
-web: bundle exec foreman start -f Procfile.heroku -e .env.stub -p $PORT
+web: bundle exec foreman start -f Procfile.production -e .env.stub -p $PORT

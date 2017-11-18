@@ -1,3 +1,0 @@
-web: bundle exec puma -t 4:4 -p 3000 -e production
-worker: QUEUE=* COUNT=5 bundle exec rake resque:workers
-scheduler: bundle exec rake environment resque:scheduler

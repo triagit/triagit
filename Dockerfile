@@ -14,6 +14,6 @@ ENV LANG C.UTF-8
 ENV PORT 3000
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["bundle", "exec", "foreman", "start", "-f", "Procfile.aws", "-e", ".env.stub"]
+CMD ["bundle", "exec", "foreman", "start", "-f", "Procfile.production", "-e", ".env.stub"]
 
 COPY . .
