@@ -11,8 +11,9 @@ RUN bundle install
 ENV RAILS_ENV development
 ENV DISABLE_SPRING 1
 ENV LANG C.UTF-8
+ENV PORT 3000
 EXPOSE 3000
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["bundle", "exec", "rails", "server"]
+CMD ["bundle", "exec", "foreman", "start", "-f", "Procfile.prod"]
 
 COPY . .
