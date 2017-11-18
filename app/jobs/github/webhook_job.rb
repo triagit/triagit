@@ -11,6 +11,16 @@ module Github
       rules[:rules].each do |rule|
         process_rule(event, rule)
       end
+      RepoSyncJob.perform_later event.repo if must_sync?(event)
+    end
+
+    def must_sync?(event)
+      return event.name == 'push' && event.payload[:ref] == "refs/heads/master" &&
+        event.payload[:commits].any? do |c|
+          c[:added].include?(".github/triagit.yaml") ||
+          c[:modified].include?(".github/triagit.yaml")
+        end
+
     end
 
     def process_rule(event, rule)
@@ -21,8 +31,6 @@ module Github
         CheckPrFormatJob.perform_later event, rule[:name]
       when "pr_size_check"
         CheckPrSizeJob.perform_later event, rule[:name]
-      when "sync_triagit"
-        RepoSyncJob.perform_later event.repo, event
       end
     end
   end
