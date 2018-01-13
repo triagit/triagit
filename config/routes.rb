@@ -16,5 +16,6 @@ Rails.application.routes.draw do
   end
 
   get '/auth/github/callback', to: 'github/sessions#new'
+  get '/health', to: 'site/health#show'
   root to: 'site/home#index'
 end
