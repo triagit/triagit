@@ -15,7 +15,6 @@ module Github
       gh_installs.installations.each do |gh_install|
         sync_gh_install client, user, gh_install
       end
-
       # Remove old/revoked access accounts
       AccountUser.where(user: user).where('updated_at < ?', before_sync_timestamp).delete_all
     end
