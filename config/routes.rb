@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   scope '/', module: 'site', as: 'site' do
   	root to: 'home#index'
+    resources :docs, only: [:index]
   end
 
   scope '/github', module: 'github', as: 'github' do
