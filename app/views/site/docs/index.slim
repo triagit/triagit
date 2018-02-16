@@ -1,0 +1,82 @@
+h1 Rules File Syntax
+
+pre.pre
+  |
+    # Create a file under <repository-root>/.github/triagit.yaml
+    # Rules file must begin with "rules:"
+    rules:
+    - rule: ...
+    - rule: ...
+    - ...
+
+h2 Available Rules
+
+h3 Close outdated issues
+
+pre.pre
+  |
+    name: close_issues_older_than_3_days
+    rule: close_outdated_issues
+    options:
+      # ISO 8601 duration
+      older_than: P3D
+      # Optional, apply label when closing
+      apply_label: inactive
+      # Optional, leave a comment when closing
+      add_comment: |
+      Sorry, closing the issue as its older than 3 days
+
+h3 Close outdated PRs
+
+pre.pre
+  |
+    name: close_outdated_prs_older_than_21_days
+    rule: close_outdated_pr
+    options:
+      # ISO 8601 duration
+      older_than: P21D
+      # Optional, apply label when closing
+      apply_label: inactive
+      # Optional, leave a comment when closing
+      add_comment: |
+      Sorry, closing the pr as its older than 21 days
+
+h3 PR Naming Conventions
+
+pre.pre
+  |
+    name: pr_matches_format
+    rule: pr_format
+    options:
+      # Array of case-insensitive regular expressions
+      # TODO:
+      #   Decide on multi-line flag, escaping special characters, full vs partial match and other specific regex behaviors
+      #   Behavior with multiple commits on a PR (squash commits, merge commits, etc)
+      #   Matching commit bodies vs PR title vs PR body
+      match_title:
+      - "^#\\d+"
+      # match_commit: ...
+      # match_body: ...
+      apply_label: invalid
+      add_comment: |
+      Sorry, PRs must follow conventions:
+      - Title must start with ticket number - #123 ...
+
+h3 PR Check Size
+
+pre.pre
+  |
+    name: pr_size
+    rule: pr_size_check
+    options:
+      strategy:
+      # Here you can have as many rules as you want. 
+      - lines: 100
+          files: 10
+          apply_label: size-small
+      - lines: 200
+          files: 20
+          apply_label: size-medium
+      - apply_label: size-large
+          add_comment: |
+          Your PR is way too large
