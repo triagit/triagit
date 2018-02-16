@@ -1,2 +1,2 @@
 "Github::AppTriageAllJob":
-  every: 5m
+  every: 3h
