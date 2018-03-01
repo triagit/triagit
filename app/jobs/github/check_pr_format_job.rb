@@ -52,7 +52,7 @@ module Github
           end
         end
       else
-        api_client.add_labels_to_an_issue(repo.ref, pr_number, [add_label]) if add_label.present?
+        LabelHelper.add_label!(repo, pr_number, add_label)
         api_client.add_comment(repo.ref, pr_number, add_comment) if add_comment.present?
       end
     end
