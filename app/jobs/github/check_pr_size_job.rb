@@ -46,7 +46,7 @@ module Github
       all_rule_labels = rules.collect { |r| r[:apply_label] if r[:apply_label].present? }.compact
       pr_diff_labels = pr.labels.nodes.collect { |l| l.name if all_rule_labels.include? l.name }.compact - [final_rule[:apply_label]]
       pr_diff_labels.each { |l| api_client.remove_label(repo.ref, pr_number, l) }
-      api_client.add_labels_to_an_issue(repo.ref, pr_number, [final_rule[:apply_label]])
+      LabelHelper.add_label!(repo, pr_number, final_rule[:apply_label])
       api_client.add_comment(repo.ref, pr_number, final_rule[:add_comment]) if final_rule.has_key?(:add_comment)
     end
 
