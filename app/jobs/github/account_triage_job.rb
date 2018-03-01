@@ -7,7 +7,7 @@ module Github
         return logger.error 'Invalid argument passed', args: args
       end
       account = args[0]
-      logger.info self.class.name, account: account.ref
+      logger.info "Triaging account", account: account.ref
       account.repos.active.find_in_batches do |batch|
         batch.each do |repo|
           RepoSyncJob.perform_later repo

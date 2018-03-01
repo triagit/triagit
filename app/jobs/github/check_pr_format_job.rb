@@ -2,58 +2,80 @@ module Github
   class CheckPrFormatJob < ApplicationJob
     queue_as :default
 
-    # https://developer.github.com/v3/activity/events/types/#pullrequestevent
-    WEBHOOK_EVENT_NAME = 'pull_request'
-    WEBHOOK_EVENT_ACTIONS = ['create', 'opened', 'edited', 'reopened']
-
-    def perform(*args)
-      begin
-        event = args[0]
-        return unless valid?(event)
-        rule_name = args[1]
-        rule = event.repo.rules[:rules].find{ |r| r[:name] == rule_name }
-        # TODO: Need more sophisticated rule validation
-        # i.e. whether necessary parameters for a rule was given or not
-        raise unless rule
-      rescue => e
-        return logger.error 'Invalid argument passed', args: args
-      end
-      logger.info self.class.name, event: event.name, repo: event.repo.ref, rule: rule_name
-      process_rule event, rule
+    def perform(args)
+      rule = Rule.new(args)
+      rule.execute if rule.valid?
     end
 
-    def valid?(event)
-      return event && event.is_a?(Event) &&
-        event.repo.service == Constants::GITHUB &&
-        event.name == WEBHOOK_EVENT_NAME &&
-        WEBHOOK_EVENT_ACTIONS.include?(event.payload[:action])
-    end
+    class Rule
+      include ActiveModel::Model
+      include SemanticLogger::Loggable
+      attr_accessor :event, :rule_name
 
-    def process_rule(event, rule)
-      repo = event.repo
-      pr_number = event.payload[:pull_request][:number]
-      title = event.payload[:pull_request][:title]
-      title_patterns = [ rule[:options][:match_title] ].flatten.compact
-      title_matches = title_patterns.all? { |p| Regexp.new(p, "im").match?(title) }
+      # https://developer.github.com/v3/activity/events/types/#pullrequestevent
+      WEBHOOK_EVENT_NAME = 'pull_request'
+      WEBHOOK_EVENT_ACTIONS = ['create', 'opened', 'edited', 'reopened']
 
-      api_client = GithubClient.instance.new_repo_client(event.repo)
-      add_label = rule[:options][:apply_label].strip
-      add_comment = rule[:options][:add_comment].strip
-      if title_matches
-        labels_in_pr = api_client.labels_for_issue(repo.ref, pr_number).collect { |l| l.name }
-        if add_label.present? && labels_in_pr.member?(add_label)
-          api_client.remove_label(repo.ref, pr_number, add_label)
+      validates :event, presence: true
+      validates :rule, presence: true
+      validates_each :event do |record, attr, event|
+        unless event.name == WEBHOOK_EVENT_NAME and WEBHOOK_EVENT_ACTIONS.include?(event.payload[:action])
+          errors.add attr, "Not applicable"
         end
-        if add_comment.present?
-          api_client.issue_comments(repo.ref, pr_number).each do |comment|
-            if comment[:body].strip == add_comment
-              api_client.delete_comment repo.ref, comment[:id]
-            end
+      end
+
+      def execute
+        title = event.payload[:pull_request][:title]
+        title_patterns = [ rule[:options][:match_title] ].flatten.compact
+        title_matches = title_patterns.all? { |p| Regexp.new(p, "im").match?(title) }
+        title_matches ? self.positive : self.negative
+      end
+
+      def positive
+        if option_add_label.present?
+          labels_in_pr = api_client.labels_for_issue(repo.ref, pr_number).collect { |l| l.name }
+          if labels_in_pr.member?(option_add_label)
+            api_client.remove_label(repo.ref, pr_number, option_add_label)
           end
         end
-      else
-        LabelHelper.add_label!(repo, pr_number, add_label)
-        api_client.add_comment(repo.ref, pr_number, add_comment) if add_comment.present?
+        if option_add_comment.present?
+          CommentActionJob.perform_later repo: repo, rule_name: rule_name,
+            issue_or_pr: pr_number, action: "delete"
+        end
+      end
+
+      def negative
+        if option_add_label.present?
+          LabelHelper.add_label!(repo, pr_number, add_label)
+        end
+        if option_add_comment.present?
+          CommentActionJob.perform_later repo: repo, rule_name: rule_name,
+            issue_or_pr: pr_number, action: "add_or_update", comment: option_add_comment
+        end
+      end
+
+      def repo
+        event.repo
+      end
+
+      def api_client
+        @api_client ||= GithubClient.instance.new_repo_client(repo)
+      end
+
+      def rule
+        @rule ||= event.repo.rules[:rules].find{ |r| r[:name] == rule_name }
+      end
+
+      def pr_number
+        event.payload[:pull_request][:number]
+      end
+
+      def option_add_label
+        rule[:options][:add_label]
+      end
+
+      def option_add_comment
+        rule[:options][:add_comment]
       end
     end
   end

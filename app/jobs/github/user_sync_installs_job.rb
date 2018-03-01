@@ -7,7 +7,7 @@ module Github
         return logger.error 'Invalid argument passed', args: args
       end
       user = args[0]
-      logger.info self.class.name, user: user.id, service: user.service
+      logger.info "Syncing user", user: user.id, service: user.service
       client = GithubClient.instance.new_user_client(user)
       opts = client.ensure_api_media_type(:integrations, {})
       before_sync_timestamp = DateTime.now
@@ -22,7 +22,7 @@ module Github
     protected
 
     def sync_gh_install(client, user, gh_install)
-      logger.info 'sync_gh_install', user: user.id, install: gh_install.id
+      logger.info 'Syncing install', user: user.id, install: gh_install.id
       before_sync_timestamp = DateTime.now
       opts = client.ensure_api_media_type(:integrations, {})
       account = Account.find_or_initialize_by(
@@ -54,7 +54,7 @@ module Github
 
     def sync_gh_repo(client, user, account, gh_repo)
       # TODO: Handle repository renames
-      logger.info 'sync_gh_repo', user: user.id, account: account.ref, repo: gh_repo.full_name
+      logger.info 'Syncing repo', user: user.id, account: account.ref, repo: gh_repo.full_name
       repo = Repo.find_or_initialize_by(
         service: Constants::GITHUB, account: account, ref: gh_repo.full_name
       )

@@ -18,7 +18,7 @@ module Github
       rescue => e
         return logger.error 'Invalid argument passed', args: args
       end
-      logger.info self.class.name, event: event.name, repo: event.repo.ref, rule: rule_name
+      logger.info "Executing", event: event.name, repo: event.repo.ref, rule: rule_name
       process_rule event, rule
     end
 
