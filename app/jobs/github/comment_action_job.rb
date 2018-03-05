@@ -16,12 +16,16 @@ module Github
       include SemanticLogger::Loggable
       attr_accessor :repo, :rule_name, :issue_or_pr, :action, :comment
 
-      validates :repo, presence: true
-      validates :rule_name, presence: true
-      validates :issue_or_pr, presence: true
-      validates :action, presence: true, inclusion: { in: ACTIONS }
-      validates_each :repo do |record, attr, repo|
-        record.errors.add(attr, 'must be a Repo') unless repo.is_a?(Repo)
+      validates :repo, :rule_name, :issue_or_pr, :action, presence: true
+      validates :action, inclusion: { in: ACTIONS }
+      validate :validate_repo, :validate_comment
+
+      def validate_repo
+        errors.add(:repo, 'must be a Repo model') unless repo.is_a?(Repo)
+      end
+
+      def validate_comment
+        errors.add(:comment, 'must be specified') if action == "add" and !comment.present?
       end
 
       def execute
