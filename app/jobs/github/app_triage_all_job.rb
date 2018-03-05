@@ -4,7 +4,6 @@ module Github
 
     def perform(*args)
       # TODO: Handle pagination of large data
-      logger.info self.class.name
       Account.active.github.find_in_batches do |batch|
         batch.each do |account|
           AccountTriageJob.perform_later account

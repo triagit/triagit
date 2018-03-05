@@ -28,7 +28,7 @@ module Github
       # We can make this better later, keeping it simple for now as there is only one PR check
       case rule[:rule]
       when "pr_format"
-        CheckPrFormatJob.perform_later event, rule[:name]
+        CheckPrFormatJob.perform_later event: event, rule_name: rule[:name]
       when "pr_size_check"
         CheckPrSizeJob.perform_later event, rule[:name]
       end

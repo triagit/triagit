@@ -9,13 +9,12 @@ module Github
 
       begin
         repo = args[0]
-        logger.info self.class.name, repo: repo.name
+        logger.info "Syncing repo", repo: repo.name
         repo.rules = load_rules(repo)
         repo.updated_at = DateTime.now
         repo.save!
       rescue => e
-        logger.error 'Invalid triagit.yaml', repo: repo.name
-        logger.error e
+        logger.error 'Invalid triagit.yaml', repo: repo.name, exception: e
         return
       end
     end

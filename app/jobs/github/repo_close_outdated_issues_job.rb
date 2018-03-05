@@ -8,7 +8,7 @@ module Github
       begin
         repo = args[0]
         rule_name = args[1]
-        logger.info self.class.name, repo: repo.name, rule: rule_name
+        logger.info "Executing", repo: repo.name, rule: rule_name
         rule = repo.rules[:rules].find{ |r| r[:name] == rule_name } rescue nil
       rescue => e
         return logger.error 'Invalid argument passed', args: args

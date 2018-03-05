@@ -7,7 +7,7 @@ module Github
         return logger.error 'Invalid argument passed', args: args
       end
       repo = args[0]
-      logger.info self.class.name, repo: repo.ref
+      logger.info "Triaging repo", repo: repo.ref
 
       rules = repo.rules
       rules[:rules].each do |rule|

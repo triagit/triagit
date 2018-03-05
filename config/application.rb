@@ -47,9 +47,5 @@ module Triagit
     config.middleware.delete ::Rack::ConditionalGet
     config.middleware.delete ::ActionDispatch::RequestId
     config.middleware.delete ::ActionDispatch::Flash
-
-    config.after_initialize do
-      Rails.logger.info "Started application", env: ENV
-    end
   end
 end
