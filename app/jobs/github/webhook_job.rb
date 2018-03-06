@@ -30,7 +30,7 @@ module Github
       when "pr_format"
         CheckPrFormatJob.perform_later event: event, rule_name: rule[:name]
       when "pr_size_check"
-        CheckPrSizeJob.perform_later event, rule[:name]
+        CheckPrSizeJob.perform_later event: event, rule_name: rule[:name]
       end
     end
   end
