@@ -10,9 +10,5 @@ module Github
       return if session[:uid].present? && current_user.present?
       redirect_to '/auth/github'
     end
-
-    def current_user
-      @current_user ||= User.find session[:uid]
-    end
   end
 end
