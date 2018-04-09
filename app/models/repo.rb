@@ -30,4 +30,8 @@ class Repo < ApplicationRecord
   serialize :payload, JSONSerializer
   serialize :rules, JSONSerializer
   scope :active, -> { where status: Constants::STATUS_ACTIVE }
+
+  def display_name
+    "#{service}/#{name}"
+  end
 end

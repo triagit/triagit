@@ -12,4 +12,15 @@ ActiveAdmin.register Account do
 #   permitted
 # end
 
+  index do
+    id_column
+    column :name
+    column :service
+    column :plan
+    column :ref
+    column :status
+    column :updated_at
+    actions
+  end
+
 end
