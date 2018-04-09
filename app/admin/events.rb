@@ -12,4 +12,12 @@ ActiveAdmin.register Event do
 #   permitted
 # end
 
+  index do
+    id_column
+    column :repo
+    column :name
+    column :status
+    column :updated_at
+  end
+
 end

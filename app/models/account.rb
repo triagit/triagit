@@ -26,4 +26,8 @@ class Account < ApplicationRecord
   has_many :repos
   scope :active, -> { where status: Constants::STATUS_ACTIVE }
   scope :github, -> { where service: Constants::GITHUB }
+
+  def display_name
+    "#{service}/#{name}"
+  end
 end

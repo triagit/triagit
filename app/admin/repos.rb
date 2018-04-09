@@ -12,4 +12,14 @@ ActiveAdmin.register Repo do
 #   permitted
 # end
 
+  index do
+    id_column
+    column :name
+    column :service
+    column :account
+    column :status
+    column :updated_at
+    actions
+  end
+
 end

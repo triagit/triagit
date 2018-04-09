@@ -12,4 +12,13 @@ ActiveAdmin.register User do
 #   permitted
 # end
 
+  index do
+    id_column
+    column :name
+    column :service
+    column :status
+    column :updated_at
+    actions
+  end
+
 end
