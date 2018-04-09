@@ -50,6 +50,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 ###
 
 gem 'rubocop', '~> 0.49.1', require: false, group: :development
+gem 'pry', group: :development
 gem 'pg'
 gem 'annotate', '~> 2.7.2'
 gem 'awesome_print', '~> 1.8'
@@ -68,4 +69,4 @@ gem 'resque-scheduler', '~> 4.3'
 gem 'active_scheduler', '~> 0.5'
 gem 'foreman', '~> 0.84.0'
 gem 'rspec-rails', '~> 3.6.0'
-gem 'pry'
+gem 'activeadmin', '~> 1.2.1'
