@@ -1,5 +1,5 @@
 "Github::AppTriageAllJob":
   every: 12h
 
-"CleanupJob":
+"Admin::CleanupJob":
   every: 24h
