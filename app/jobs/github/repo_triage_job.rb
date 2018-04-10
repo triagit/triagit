@@ -9,8 +9,8 @@ module Github
       repo = args[0]
       logger.info "Triaging repo", repo: repo.ref
 
-      rules = repo.rules || []
-      rules[:rules].each do |rule|
+      rules = repo.rules || {}
+      (rules[:rules] || []).each do |rule|
         process_rule(repo, rule)
       end
     end
