@@ -8,7 +8,7 @@ module Github
       end
       event = args[0]
       rules = event.repo.rules
-      rules[:rules].each do |rule|
+      (rules[:rules] || []).each do |rule|
         process_rule(event, rule)
       end
       RepoSyncJob.perform_later event.repo if must_sync?(event)

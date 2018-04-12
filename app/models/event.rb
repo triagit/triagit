@@ -25,4 +25,6 @@ class Event < ApplicationRecord
   belongs_to :repo
   serialize :payload, JSONSerializer
   scope :active, -> { where status: Constants::STATUS_ACTIVE }
+
+  validates :repo, presence: true
 end
