@@ -29,17 +29,17 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '~> 2.13'
-  gem 'selenium-webdriver'
+  # gem 'capybara', '~> 2.13'
+  # gem 'selenium-webdriver'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  # gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  # gem 'spring'
+  # gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -49,10 +49,13 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 ### Custom gems
 ###
 
-gem 'rubocop', '~> 0.49.1', require: false, group: :development
-gem 'pry', group: :development
+group :development, :test do
+  gem 'rubocop', '~> 0.49.1', require: false
+  gem 'annotate', '~> 2.7.2'
+  gem 'rspec-rails', '~> 3.6.0'
+end
+
 gem 'pg'
-gem 'annotate', '~> 2.7.2'
 gem 'awesome_print', '~> 1.8'
 gem 'dotenv-rails', '~> 2.2'
 gem 'faraday-http-cache', '~> 2.0'
@@ -68,5 +71,4 @@ gem 'resque', '~> 1.27'
 gem 'resque-scheduler', '~> 4.3'
 gem 'active_scheduler', '~> 0.5'
 gem 'foreman', '~> 0.84.0'
-gem 'rspec-rails', '~> 3.6.0'
 gem 'activeadmin', '~> 1.2.1'
