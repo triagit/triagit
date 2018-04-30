@@ -1,4 +1,5 @@
 require 'graphql/client/http'
+require 'base64'
 
 # Fake "name" method to make this look like a constant to avoid DynamicQueryError
 class GraphQL::Client::OperationDefinition
@@ -24,7 +25,7 @@ module Github
     end
 
     def new_app_client
-      private_pem = File.read(ENV['GITHUB_APP_CERT'])
+      private_pem = Base64.decode64 ENV['GITHUB_APP_CERT']
       private_key = OpenSSL::PKey::RSA.new(private_pem)
       payload = {
         iat: Time.now.to_i,
