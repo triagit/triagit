@@ -19,6 +19,8 @@
 #
 
 class User < ApplicationRecord
+  GITHUB_SUPER_ADMINS = ENV['GITHUB_SUPER_ADMINS'].split(',')
+
   serialize :payload, JSONSerializer
   has_many :account_users
   has_many :accounts, through: :account_users
@@ -26,5 +28,9 @@ class User < ApplicationRecord
 
   def display_name
     "#{service}/#{name}"
+  end
+
+  def superadmin?
+    service == Constants::GITHUB && GITHUB_SUPER_ADMINS.include?(name)
   end
 end

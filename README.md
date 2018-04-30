@@ -2,8 +2,7 @@
 
 > triage it, git!
 
-`triagit` is a service to assist open source maintainers by
-automating common git triaging taks such as:
+`triagit` helps triage git repositories and automate common git workflows, such as:
 
 - Closing outdated issues/PRs/branches
 - Adding title, description, rebasing and other rules
@@ -24,11 +23,16 @@ environment variables can keep changing.
 
 ## Quickstart
 
-- Add a [`.github/triagit.yaml`](https://github.com/triagit/test-repo/blob/master/.github/triagit.yaml) file to any repository
+### Deploy triagit
+
 - Create a GitHub Developer App
 - [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 - Fill in the required environment variables
-- Install the app in your organization
+
+### Add triagit to your repo
+
+- Add a [`.github/triagit.yaml`](https://github.com/triagit/test-repo/blob/master/.github/triagit.yaml) file to any repository
+- Install the developer app for your repo
 
 ## Local development
 

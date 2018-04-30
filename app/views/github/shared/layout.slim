@@ -16,6 +16,9 @@ html class="min-h-100 relative"
           a class="flex white link dim items-center ph2" href=github_root_url
             span class="f4 fw8 ttu tracked-2" Triagit
         div class="flex flex-grow"
+          - if current_user.superadmin?
+            a class="flex link white dim items-center" href=admin_root_url
+              span class="pa2" Admin
           a class="flex link white dim items-center" href="#"
             span class="pa2" =current_user.name
             = image_tag current_user.payload[:extra][:raw_info][:avatar_url], class: 'h2'
