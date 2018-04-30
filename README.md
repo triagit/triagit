@@ -2,15 +2,15 @@
 
 > triage it, git!
 
-`triagit` helps triage git repositories and automate common git workflows, such as:
+`triagit` is a github app that helps triage git repositories and automate common git workflows:
 
 - Closing outdated issues/PRs/branches
-- Adding title, description, rebasing and other rules
-- PR size checks
 - Adding webhooks and custom bot commands
+- Adding title, description, rebasing and other rules
 - Moving boards/cards based to git actions
 - Automating assignment and approval processes
 - Requiring signed commits and CLAs
+- Restricting PR diffs and sizes
 - etc.
 
 ## Under development
