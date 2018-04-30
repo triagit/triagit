@@ -1,0 +1,68 @@
+{
+  "name": "triagit",
+  "description": "Triage it, git! Automates common git tasks",
+  "repository": "https://github.com/triagit/triagit",
+  "keywords": ["rails", "git", "github"],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "env": {
+    "BASE_URL": {
+      "description": "Fully qualified base URL to access the application",
+      "required": true
+    },
+    "GITHUB_APP_ID": {
+      "description": "GitHub app ID that you created",
+      "required": true
+    },
+    "GITHUB_APP_CERT": {
+      "description": "Base64 encoded GitHub app certificate",
+      "required": true
+    },
+    "GITHUB_CLIENT_ID": {
+      "description": "GitHub app Client ID used for OAuth sign in",
+      "required": true
+    },
+    "GITHUB_CLIENT_SECRET": {
+      "description": "Github app Client secret for OAuth sign in",
+      "required": true
+    },
+    "GITHUB_WEBHOOK_TOKEN": {
+      "description": "Github webhook token for verifying hooks",
+      "required": true
+    },
+    "GITHUB_SUPER_ADMINS": {
+      "description": "Triagit superadmin github usernames",
+      "required": true
+    },
+    "RACK_ENV": {
+      "value": "production"
+    },
+    "RAILS_ENV": {
+      "value": "production"
+    },
+    "RAILS_LOG_TO_STDOUT": {
+      "value": "enabled"
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "value": "true"
+    },
+    "LANG": {
+      "value": "en_US.UTF-8"
+    },
+    "SECRET_KEY_BASE": {
+      "generator": "secret"
+    }
+  },
+  "addons": [{
+    "plan": "heroku-postgresql:hobby-dev",
+    "options": {
+      "version": "9.6"
+    }
+  }, {
+    "plan": "heroku-redis:hobby-dev"
+  }]
+}

@@ -1,4 +1,4 @@
-ADMIN_USERS = ENV['GITHUB_ADMIN_USERS'].split(',')
+ADMIN_USERS = ENV['GITHUB_SUPER_ADMINS'].split(',')
 admin_constraint = lambda do |request|
   puts request.session
   user = User.find request.session[:uid] rescue nil
