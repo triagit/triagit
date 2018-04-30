@@ -13,6 +13,12 @@
 - Restricting PR diffs and sizes
 - etc.
 
+## Quickstart
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+Follow the [Quickstart wiki](https://github.com/triagit/triagit/wiki/Quickstart).
+
 ## Under development
 
 `triagit` is under active development.
@@ -20,19 +26,6 @@
 We will keep the `triagit.yaml` file contract compatible,
 but internal code and deployment configuration such as
 environment variables can keep changing.
-
-## Quickstart
-
-### Deploy triagit
-
-- Create a GitHub Developer App
-- [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-- Fill in the required environment variables
-
-### Add triagit to your repo
-
-- Add a [`.github/triagit.yaml`](https://github.com/triagit/test-repo/blob/master/.github/triagit.yaml) file to any repository
-- Install the developer app for your repo
 
 ## Local development
 
