@@ -15,7 +15,7 @@
 
 ## Quickstart
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/triagit/triagit/tree/master)
 
 Follow the [Quickstart wiki](https://github.com/triagit/triagit/wiki/Quickstart).
 
